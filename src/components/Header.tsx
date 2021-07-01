@@ -13,10 +13,11 @@ export function Header({ continent }: HeaderProps) {
       justify={continent ? "space-around" : "center"}
       h="28"
       w="100vw"
+      padding="6"
     >
       {continent && (
         <Link href="/">
-          <IoIosArrowBack />
+          <IoIosArrowBack size={32} />
         </Link>
       )}
       <Image src="Logo.svg" alt="logo" />

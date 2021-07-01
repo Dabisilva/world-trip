@@ -13,7 +13,7 @@ export default function Home() {
         <title>Home</title>
       </Head>
 
-      <Flex w="100vw" flexDir="column">
+      <Flex w="100vw" flexDir="column" bg="gray.50">
         <Header />
 
         <Image w="100vw" src="Banner.svg" alt="banner" />
