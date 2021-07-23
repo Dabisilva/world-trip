@@ -1,12 +1,35 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Flex, Image, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Flex, Image, Stack, Text, Box } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper/core";
 import { Header } from "../components/Header";
+import { TravelType } from "../components/TravelType";
+
+interface ContinentProps {
+  id: number;
+  title: string;
+  subtitle: string;
+  image: string;
+}
 
 export default function Home() {
   SwiperCore.use([Navigation, Pagination]);
+  const [continents, setContinents] = useState<ContinentProps[]>();
+
+  async function getDataContinents() {
+    await fetch("http://localhost:3000/api/continentsList")
+      .then((response) => response.json())
+      .then((data) => {
+        setContinents(data);
+      });
+  }
+
+  useEffect(() => {
+    getDataContinents();
+  }, []);
+
   return (
     <>
       <Head>
@@ -20,45 +43,20 @@ export default function Home() {
 
         <Stack
           direction="row"
-          spacing={36}
+          spacing="36"
           align="center"
           justify="center"
-          marginTop={20}
+          marginTop="20"
         >
-          <Stack direction="column" spacing={6} align="center">
-            <Image h={20} w={20} src="cocktail.svg" alt="cocktail" />
-            <Text fontWeight="medium" fontSize="2xl">
-              vida noturna
-            </Text>
-          </Stack>
-          <Stack direction="column" spacing={6} align="center">
-            <Image h={20} w={20} src="surf.svg" alt="surf" />
-            <Text fontWeight="medium" fontSize="2xl">
-              praia
-            </Text>
-          </Stack>
-          <Stack direction="column" spacing={6} align="center">
-            <Image h={20} w={20} src="building.svg" alt="building" />
-            <Text fontWeight="medium" fontSize="2xl">
-              moderno
-            </Text>
-          </Stack>
-          <Stack direction="column" spacing={6} align="center">
-            <Image h={20} w={20} src="museum.svg" alt="museum" />
-            <Text fontWeight="medium" fontSize="2xl">
-              clássico
-            </Text>
-          </Stack>
-          <Stack direction="column" spacing={6} align="center">
-            <Image h={20} w={20} src="earth.svg" alt="earth" />
-            <Text fontWeight="medium" fontSize="2xl">
-              e mais...
-            </Text>
-          </Stack>
+          <TravelType image="cocktail">vida noturna</TravelType>
+          <TravelType image="surf">praia</TravelType>
+          <TravelType image="building">moderno</TravelType>
+          <TravelType image="museum">clássico</TravelType>
+          <TravelType image="earth">e mais...</TravelType>
         </Stack>
 
-        <Flex align="center" justify="center" mt={20} mb={20}>
-          <Flex w={24} h="px" bg="gray.600" />
+        <Flex align="center" justify="center" mt="20" mb="20">
+          <Flex w="24" h="px" bg="gray.600" />
         </Flex>
 
         <Text
@@ -88,72 +86,22 @@ export default function Home() {
               spaceBetween={50}
               centeredSlides={true}
             >
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
-              <SwiperSlide>
-                <Link href="/continent">
-                  <Image
-                    cursor="pointer"
-                    h="28rem"
-                    w="77.5rem"
-                    src="europeSwiper.svg"
-                    alt="europe"
-                  />
-                </Link>
-              </SwiperSlide>
+              {continents?.map((continent) => (
+                <SwiperSlide>
+                  <Link href="/continent">
+                    <>
+                      <Image
+                        key={continent.id}
+                        cursor="pointer"
+                        h="28rem"
+                        w="77.5rem"
+                        src={continent.image}
+                        alt={continent.title}
+                      />
+                    </>
+                  </Link>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </Flex>
         </Flex>

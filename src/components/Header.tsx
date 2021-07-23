@@ -17,7 +17,9 @@ export function Header({ continent }: HeaderProps) {
     >
       {continent && (
         <Link href="/">
-          <IoIosArrowBack size={32} />
+          <a>
+            <IoIosArrowBack size={32} />
+          </a>
         </Link>
       )}
       <Image src="Logo.svg" alt="logo" />
