@@ -87,11 +87,10 @@ export default function Home() {
               centeredSlides={true}
             >
               {continents?.map((continent) => (
-                <SwiperSlide>
+                <SwiperSlide key={continent.id}>
                   <Link href="/continent">
                     <>
                       <Image
-                        key={continent.id}
                         cursor="pointer"
                         h="28rem"
                         w="77.5rem"

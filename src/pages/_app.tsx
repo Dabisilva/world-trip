@@ -53,6 +53,11 @@ createServer({
         },
       ];
     });
+    this.passthrough((request) => {
+      if (request.url === "/_next/static/development/_devPagesManifest.json") {
+        return true;
+      }
+    });
   },
 });
 

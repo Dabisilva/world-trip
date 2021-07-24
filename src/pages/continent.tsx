@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { Flex, Image, Stack, Text } from "@chakra-ui/react";
+import { Flex, Image, Stack, Text, Tooltip } from "@chakra-ui/react";
+import { RiErrorWarningLine } from "react-icons/ri";
 import { Header } from "../components/Header";
 import { CityBox } from "../components/CityBox";
 
@@ -63,9 +64,26 @@ export default function Continent() {
               <Text color="yellow.500" fontSize="5xl" fontWeight="bold">
                 27
               </Text>
-              <Text color="gray.600" fontSize="2xl" fontWeight="bold">
-                cidades +100
-              </Text>
+              <Stack
+                direction="row"
+                spacing="1"
+                align="center"
+                justify="center"
+              >
+                <Text color="gray.600" fontSize="2xl" fontWeight="bold">
+                  cidades +100
+                </Text>
+                <Tooltip
+                  hasArrow
+                  label="+ 100 cidades"
+                  bg="gray.10"
+                  color="gray.600"
+                >
+                  <Text>
+                    <RiErrorWarningLine size={16} color="#999999" />
+                  </Text>
+                </Tooltip>
+              </Stack>
             </Stack>
           </Stack>
         </Flex>
