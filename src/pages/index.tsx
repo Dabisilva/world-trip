@@ -1,22 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Flex, Image, Stack, Text, Box } from "@chakra-ui/react";
+import { Flex, Image, Stack, Text, Button } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper/core";
 import { Header } from "../components/Header";
 import { TravelType } from "../components/TravelType";
-
-interface ContinentProps {
-  id: number;
-  title: string;
-  subtitle: string;
-  image: string;
-}
+import { Continent, useContinent } from "../context/continent";
 
 export default function Home() {
   SwiperCore.use([Navigation, Pagination]);
-  const [continents, setContinents] = useState<ContinentProps[]>();
+  const [continents, setContinents] = useState<Continent[]>();
+
+  const { getContinent } = useContinent();
 
   async function getDataContinents() {
     await fetch("http://localhost:3000/api/continentsList")
@@ -77,7 +73,7 @@ export default function Home() {
         </Text>
 
         <Flex w="100vw" justify="center" align="center" mt={14} mb={10}>
-          <Flex w="78rem" p={2}>
+          <Flex w="77rem" p={2}>
             <Swiper
               navigation={true}
               pagination={{
@@ -89,15 +85,39 @@ export default function Home() {
               {continents?.map((continent) => (
                 <SwiperSlide key={continent.id}>
                   <Link href="/continent">
-                    <>
-                      <Image
-                        cursor="pointer"
+                    <a>
+                      <Button
+                        onClick={() => getContinent(continent)}
+                        backgroundImage={continent.image}
+                        variant="ghost"
+                        borderRadius="none"
+                        flexDir="column"
+                        _hover={{ bgImage: continent.image }}
+                        align="center"
+                        justify="center"
                         h="28rem"
-                        w="77.5rem"
-                        src={continent.image}
-                        alt={continent.title}
-                      />
-                    </>
+                        w="77rem"
+                      >
+                        <Text
+                          fontSize="4xl"
+                          fontWeight="medium"
+                          lineHeight="3.5rem"
+                          textAlign="center"
+                          color="gray.50"
+                        >
+                          {continent.title}
+                        </Text>
+                        <Text
+                          fontSize="2xl"
+                          fontWeight="medium"
+                          lineHeight="3.5rem"
+                          textAlign="center"
+                          color="gray.100"
+                        >
+                          {continent.subtitle}
+                        </Text>
+                      </Button>
+                    </a>
                   </Link>
                 </SwiperSlide>
               ))}
